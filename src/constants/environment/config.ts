@@ -21,6 +21,16 @@ export interface Config {
   nest: NestConfig;
   database: any;
   kafka: KafkaConfig;
+  winstonTransportCombine: WinstonConfigTransports;
+  winstonTransportError: WinstonConfigTransports;
+}
+
+export interface WinstonConfigTransports {
+  filename: string | undefined;
+  datePattern: string | undefined;
+  zippedArchive: boolean | undefined;
+  maxFiles: string | undefined;
+  level?: string | undefined;
 }
 
 const configuration = (): Config => ({
@@ -44,6 +54,19 @@ const configuration = (): Config => ({
     BROKER_KAFKA_1: process.env.BROKER_KAFKA_1,
     BROKER_KAFKA_2: process.env.BROKER_KAFKA_2,
     BROKER_KAFKA_3: process.env.BROKER_KAFKA_3,
+  },
+  winstonTransportCombine: {
+    filename: process.env.WINTON_FILENAME_COMBINE,
+    datePattern: process.env.DATE_PATTERN,
+    zippedArchive: false,
+    maxFiles: process.env.MAX_FILES_EXPIRES,
+  },
+  winstonTransportError: {
+    filename: process.env.WINTON_FILENAME_ERROR,
+    level: 'error',
+    datePattern: process.env.DATE_PATTERN,
+    zippedArchive: false,
+    maxFiles: process.env.MAX_FILES_EXPIRES,
   },
 });
 

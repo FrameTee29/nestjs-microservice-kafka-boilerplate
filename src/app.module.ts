@@ -5,6 +5,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { UserModule } from './modules/user/user.module';
 import configuration from './constants/environment/config';
+import 'winston-daily-rotate-file';
+import { SharedModule } from './shared/shared.module';
+import { CustomLoggerService } from './shared/logger/logger.service';
 
 @Module({
   imports: [
@@ -21,6 +24,7 @@ import configuration from './constants/environment/config';
       inject: [ConfigService],
     }),
     UserModule,
+    SharedModule,
   ],
   controllers: [AppController],
 })
