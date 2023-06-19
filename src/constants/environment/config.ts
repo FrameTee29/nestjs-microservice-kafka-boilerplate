@@ -19,7 +19,7 @@ export interface KafkaConfig {
 
 export interface Config {
   nest: NestConfig;
-  database: DatabaseConfig;
+  database: any;
   kafka: KafkaConfig;
 }
 
@@ -29,11 +29,16 @@ const configuration = (): Config => ({
     PORT: Number(process.env.PORT || 3000),
   },
   database: {
-    POSTGRES_HOST: process.env.POSTGRES_HOST,
-    POSTGRES_PORT: Number(process.env.POSTGRES_PORT || 5432),
-    POSTGRES_USER: process.env.POSTGRES_USER,
-    POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD,
-    POSTGRES_DATABASE: process.env.POSTGRES_DATABASE,
+    type: 'postgres',
+    host: process.env.POSTGRES_HOST || 'localhost',
+    port: Number(process.env.POSTGRES_PORT) || 5432,
+    username: process.env.POSTGRES_USER || 'postgres',
+    password: process.env.POSTGRES_PASSWORD || '1234',
+    database: process.env.POSTGRES_DATABASE || 'postgres',
+    entities: ['dist/**/*.entity{.ts,.js}'],
+    migrations: ['dist/migrations/*.js'],
+    synchronize: process.env.SYNCHRONIZE === 'true' ? true : false,
+    logging: true,
   },
   kafka: {
     BROKER_KAFKA_1: process.env.BROKER_KAFKA_1,
